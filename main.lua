@@ -9,11 +9,16 @@ function timify(n)
   return string.format("%02d:%02d",m,s)
 end
 function love.load(t)
+  assert(love.filesystem.isDirectory("assets"),"No assets directory found.")
   for i,v in ipairs(love.filesystem.getDirectoryItems("assets")) do
     if love.filesystem.isFile("assets/"..v) then
-      table.insert(playlist,{["name"]=v,["sound"]=love.audio.newSource("assets/"..v,"static")})
+      local success,data = pcall(function() return love.audio.newSource("assets/"..v) end )
+      if success then
+        table.insert(playlist,{name=v,sound=data})
+      end
     end
   end
+  assert(#playlist>0,"No songs found.")
   playlist[currentSong].sound:play()
   loaded=true
 end
@@ -38,7 +43,6 @@ function love.draw()
   end
   love.graphics.print(timify(playlist[currentSong].sound:tell()),0,10)
   love.graphics.print("Play/Pause-Space  Next/Last Song-Left/Right",0,20)
-  love.graphics.print("ILoveMP3s Player by Iggyvolz - Licensed under the MIT license https://github.com/iggyvolz/ILoveMP3s",0,30)
 end
 function love.keypressed(k)
   if k==" " then
