@@ -38,6 +38,7 @@ function love.draw()
   end
   love.graphics.print(timify(playlist[currentSong].sound:tell()),0,10)
   love.graphics.print("Play/Pause-Space  Next/Last Song-Left/Right",0,20)
+  love.graphics.print("ILoveMP3s Player by Iggyvolz - Licensed under the MIT license https://github.com/iggyvolz/ILoveMP3s",0,30)
 end
 function love.keypressed(k)
   if k==" " then
