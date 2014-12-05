@@ -9,6 +9,7 @@ function timify(n)
   return string.format("%02d:%02d",m,s)
 end
 function love.load(t)
+  assert(love.filesystem,"Love filesystem is needed.  If you would like to add support for 0.8 or before, place songs directly into playlist and comment this line.")
   assert(love.filesystem.isDirectory("assets"),"No assets directory found.")
   for i,v in ipairs(love.filesystem.getDirectoryItems("assets")) do
     if love.filesystem.isFile("assets/"..v) then
