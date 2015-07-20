@@ -32,7 +32,7 @@ function love.update(dt)
   if not loaded then return end
   if paused then return end
   if currentSong:isPlaying() then return end
-  if not playlist[currentSong] then
+  if not playlist[currentSongNum+1] then
     currentSongNum=1
     paused=true
     return
