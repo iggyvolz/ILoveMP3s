@@ -52,7 +52,7 @@ function love.draw()
   love.graphics.print("Play/Pause-Space  Next/Last Song-Left/Right",0,20)
 end
 function love.keypressed(k)
-  if k==" " then
+  if k==" " or k=="space" then
     if paused then
       paused=false
       currentSong:play()
