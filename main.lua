@@ -63,7 +63,7 @@ function love.keypressed(k)
   elseif k=="right" then
     currentSong:stop()
   elseif k=="left" then
-    if currentSong:tell()<5 and currentSong ~= 1 then
+    if currentSong:tell()<5 and currentSongNum ~= 1 then
       currentSong:stop()
       currentSongNum=currentSongNum-1
       currentSong:play()
