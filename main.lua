@@ -16,7 +16,7 @@ function loadSong(name)
   return data
 end
 function love.load(t)
-  assert(love.filesystem,"Love filesystem is needed.  If you would like to add support for 0.8 or before, place songs directly into playlist and comment this line.")
+  assert(love.filesystem,"Version 0.9 or greater of Löve is needed.")
   assert(love.filesystem.isDirectory("assets/"..album),"No assets directory found.")
   for i,v in ipairs(love.filesystem.getDirectoryItems("assets/"..album)) do
     if love.filesystem.isFile("assets/"..album.."/"..v) then
@@ -32,12 +32,8 @@ function love.update(dt)
   if not loaded then return end
   if paused then return end
   if currentSong:isPlaying() then return end
-  if not playlist[currentSongNum+1] then
-    currentSongNum=1
-    paused=true
-    return
-  end
-  currentSongNum=currentSongNum+1
+  currentSongNum=playlist[currentSongNum+1] and currentSongNum+1 or 1
+  if currentSongNum == 1 then paused=true end
   currentSong=loadSong(playlist[currentSongNum])
   currentSong:play()
 end
@@ -62,14 +58,19 @@ function love.keypressed(k)
     end
   elseif k=="right" then
     currentSong:stop()
+    currentSongNum=playlist[currentSongNum+1] and currentSongNum+1 or 1
+    if currentSongNum == 1 then paused=true end
+    currentSong=loadSong(playlist[currentSongNum])
+    if not paused then currentSong:play() end
   elseif k=="left" then
     if currentSong:tell()<5 and currentSongNum ~= 1 then
       currentSong:stop()
       currentSongNum=currentSongNum-1
-      currentSong:play()
+      currentSong=loadSong(playlist[currentSongNum])
+      if not paused then currentSong:play() end
     else
       currentSong:stop()
-      currentSong:play()
+      if not paused then currentSong:play() end
     end
   end
 end
